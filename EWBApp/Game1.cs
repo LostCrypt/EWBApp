@@ -2,19 +2,22 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 
 namespace EWBApp
 {
     public class Game1 : Game
     {
-        /// Define Variables here
         //Graphics
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         //The screen
         Rectangle screen;
+
+        //Fonts
+        private SpriteFont mainFont;
 
         public Game1()
         {
@@ -40,11 +43,16 @@ namespace EWBApp
             //Screen Position
             screen.X = 0;
             screen.Y = 0;
+
+            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //Fonts
+            mainFont = Content.Load<SpriteFont>("Fonts/mainFont");
         }
 
         protected override void UnloadContent()
@@ -66,9 +74,15 @@ namespace EWBApp
         {
             GraphicsDevice.Clear(Color.White);
 
-            //spriteBatch.Begin();
+            spriteBatch.Begin();
 
-            //spriteBatch.End();
+            //Debug Menu
+            if (Keyboard.GetState().IsKeyDown(Keys.F3))
+            {
+                spriteBatch.DrawString(mainFont, "This is the Debug Menu!", new Vector2(20, 20), Color.Red);
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
