@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EWBApp", "EWBApp\EWBApp.csproj", "{AAFF77A4-3118-4790-8FEC-006F542797BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAFF77A4-3118-4790-8FEC-006F542797BB}.Debug|x86.ActiveCfg = Debug|x86
+		{AAFF77A4-3118-4790-8FEC-006F542797BB}.Debug|x86.Build.0 = Debug|x86
+		{AAFF77A4-3118-4790-8FEC-006F542797BB}.Release|x86.ActiveCfg = Release|x86
+		{AAFF77A4-3118-4790-8FEC-006F542797BB}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {560DFE3F-0476-48D6-8F00-5DAFA98990D5}
+	EndGlobalSection
+EndGlobal
