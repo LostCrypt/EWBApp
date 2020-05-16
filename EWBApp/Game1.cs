@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 
 namespace EWBApp
@@ -18,6 +17,12 @@ namespace EWBApp
 
         //Fonts
         private SpriteFont mainFont;
+
+        //Mouse
+        public MouseState newState;
+        public MouseState oldState;
+        Rectangle mouseDetect;
+        Rectangle mouseHover;
 
         public Game1()
         {
@@ -44,6 +49,15 @@ namespace EWBApp
             screen.X = 0;
             screen.Y = 0;
 
+            //MOUSE//
+            this.IsMouseVisible = true; //False by default
+
+            mouseDetect.Width = 1;
+            mouseDetect.Height = 1;
+
+            mouseHover.Width = 1;
+            mouseHover.Height = 1;
+
             base.Initialize();
         }
 
@@ -65,9 +79,29 @@ namespace EWBApp
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            MouseInput();
 
             base.Update(gameTime);
+        }
+
+        void MouseInput()
+        {
+            newState = Mouse.GetState();
+
+            //Click
+            if (newState.LeftButton == ButtonState.Pressed && 
+                oldState.LeftButton == ButtonState.Released)
+            {
+                mouseDetect.X = newState.X;
+                mouseDetect.Y = newState.Y;
+            }
+
+            //Hover
+            mouseHover.X = newState.X;
+            mouseHover.Y = newState.Y;
+
+            //Assigning old state for next use
+            oldState = newState;
         }
 
         protected override void Draw(GameTime gameTime)
@@ -79,7 +113,10 @@ namespace EWBApp
             //Debug Menu
             if (Keyboard.GetState().IsKeyDown(Keys.F3))
             {
-                spriteBatch.DrawString(mainFont, "This is the Debug Menu!", new Vector2(20, 20), Color.Red);
+                spriteBatch.DrawString(mainFont, "= Debug Menu =", new Vector2(20, 20), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Location: " + mouseHover.ToString(), new Vector2(20, 45), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Hitbox: " + mouseDetect.ToString(), new Vector2(20, 65), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Click: " + oldState.ToString(), new Vector2(20, 85), Color.Red);
             }
 
             spriteBatch.End();
