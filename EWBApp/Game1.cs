@@ -33,8 +33,8 @@ namespace EWBApp
             Content.RootDirectory = "Content";
 
             //Screen Size - 1080 x 1920
-            graphics.PreferredBackBufferWidth = 375;
-            graphics.PreferredBackBufferHeight = 667;
+            graphics.PreferredBackBufferWidth = 562;
+            graphics.PreferredBackBufferHeight = 1000;
         }
 
         protected override void Initialize()
@@ -113,10 +113,10 @@ namespace EWBApp
             //Debug Menu
             if (Keyboard.GetState().IsKeyDown(Keys.F3))
             {
-                spriteBatch.DrawString(mainFont, "= Debug Menu =", new Vector2(20, 20), Color.Red);
-                spriteBatch.DrawString(mainFont, "Mouse Location: " + mouseHover.ToString(), new Vector2(20, 45), Color.Red);
-                spriteBatch.DrawString(mainFont, "Mouse Hitbox: " + mouseDetect.ToString(), new Vector2(20, 65), Color.Red);
-                spriteBatch.DrawString(mainFont, "Mouse Click: " + oldState.ToString(), new Vector2(20, 85), Color.Red);
+                spriteBatch.DrawString(mainFont, "= Debug Menu =", new Vector2(5, 10), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Location: " + mouseHover.ToString(), new Vector2(5, 45), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Hitbox: " + mouseDetect.ToString(), new Vector2(5, 65), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Click: " + oldState.LeftButton.ToString(), new Vector2(5, 85), Color.Red);
             }
 
             spriteBatch.End();
