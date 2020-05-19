@@ -24,6 +24,11 @@ namespace EWBApp
         Rectangle mouseDetect;
         Rectangle mouseHover;
 
+        //Buttons
+        public Texture2D testButtonImg;
+
+        Button testButton;
+
         public Game1()
         {
             //Viewport
@@ -50,6 +55,7 @@ namespace EWBApp
             screen.Y = 0;
 
             //MOUSE//
+
             this.IsMouseVisible = true; //False by default
 
             mouseDetect.Width = 1;
@@ -57,6 +63,10 @@ namespace EWBApp
 
             mouseHover.Width = 1;
             mouseHover.Height = 1;
+
+            //BUTTONS//
+
+            testButtonImg = Content.Load<Texture2D>("Images/testImg");
 
             base.Initialize();
         }
@@ -67,6 +77,10 @@ namespace EWBApp
 
             //Fonts
             mainFont = Content.Load<SpriteFont>("Fonts/mainFont");
+
+            //Buttons
+
+            testButton = new Button("testing", new Rectangle(screen.Width / 2, 500, 250, 250), testButtonImg);
         }
 
         protected override void UnloadContent()
@@ -118,6 +132,8 @@ namespace EWBApp
                 spriteBatch.DrawString(mainFont, "Mouse Hitbox: " + mouseDetect.ToString(), new Vector2(5, 65), Color.Red);
                 spriteBatch.DrawString(mainFont, "Mouse Click: " + oldState.LeftButton.ToString(), new Vector2(5, 85), Color.Red);
             }
+
+            testButton.Draw(spriteBatch, gameTime);
 
             spriteBatch.End();
 
