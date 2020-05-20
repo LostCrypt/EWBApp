@@ -80,7 +80,7 @@ namespace EWBApp
 
             //Buttons
 
-            testButton = new Button("testing", new Rectangle(screen.Width / 2, 500, 250, 250), testButtonImg);
+            testButton = new Button("testing", new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
         }
 
         protected override void UnloadContent()
@@ -94,6 +94,12 @@ namespace EWBApp
                 Exit();
 
             MouseInput();
+
+            if (testButton.HasCollided(mouseDetect))
+            {
+                testButton.bounds.X -= 50;
+                mouseDetect.X += 3000;
+            }
 
             base.Update(gameTime);
         }
@@ -131,6 +137,7 @@ namespace EWBApp
                 spriteBatch.DrawString(mainFont, "Mouse Location: " + mouseHover.ToString(), new Vector2(5, 45), Color.Red);
                 spriteBatch.DrawString(mainFont, "Mouse Hitbox: " + mouseDetect.ToString(), new Vector2(5, 65), Color.Red);
                 spriteBatch.DrawString(mainFont, "Mouse Click: " + oldState.LeftButton.ToString(), new Vector2(5, 85), Color.Red);
+                spriteBatch.DrawString(mainFont, "Test Collision: " + testButton.HasCollided(mouseDetect).ToString(), new Vector2(5, 105), Color.Red);
             }
 
             testButton.Draw(spriteBatch, gameTime);

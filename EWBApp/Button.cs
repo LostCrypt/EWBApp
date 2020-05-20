@@ -15,7 +15,7 @@ namespace EWBApp
         public String buttonName;
 
         //Protected - Class Only Access
-        protected Rectangle bounds;
+        public Rectangle bounds;
         protected Texture2D sprite;
 
         //Constructor
