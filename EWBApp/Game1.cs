@@ -6,6 +6,13 @@ using System.Collections.Generic;
 
 namespace EWBApp
 {
+    public enum ScreenStates
+    {
+        Welcome,
+        Signin,
+        Visitor,
+        Ranger
+    }
     public class Game1 : Game
     {
         //Graphics
@@ -28,6 +35,9 @@ namespace EWBApp
         public Texture2D testButtonImg;
 
         Button testButton;
+
+        //States
+        ScreenStates screenState;
 
         public Game1()
         {
@@ -68,6 +78,9 @@ namespace EWBApp
 
             testButtonImg = Content.Load<Texture2D>("Images/testImg");
 
+            //STATES//
+            screenState = ScreenStates.Welcome;
+
             base.Initialize();
         }
 
@@ -95,11 +108,7 @@ namespace EWBApp
 
             MouseInput();
 
-            if (testButton.HasCollided(mouseDetect))
-            {
-                testButton.bounds.X -= 50;
-                mouseDetect.X += 3000;
-            }
+            DragDrop(testButton);
 
             base.Update(gameTime);
         }
@@ -122,6 +131,29 @@ namespace EWBApp
 
             //Assigning old state for next use
             oldState = newState;
+        }
+
+        void DragDrop(Button button)
+        {
+            if (button.HasCollided(mouseDetect) && button.flag == false)
+            {
+                mouseDetect.X = -1000;
+                mouseDetect.Y = -1000;
+                button.flag = true;
+            }
+            
+            if (button.HasCollided(mouseDetect) && button.flag == true)
+            {
+                mouseDetect.X = -1000;
+                mouseDetect.Y = -1000;
+                button.flag = false;
+            }
+
+            if (button.flag == true)
+            {
+                button.bounds.X = mouseHover.X - button.sprite.Width / 2;
+                button.bounds.Y = mouseHover.Y - button.sprite.Height / 2;
+            }
         }
 
         protected override void Draw(GameTime gameTime)

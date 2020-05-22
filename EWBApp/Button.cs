@@ -13,10 +13,12 @@ namespace EWBApp
     {
         //Public - Unrestricted Access
         public String buttonName;
+        public Rectangle bounds;
+        public bool flag = false;
+        public Texture2D sprite;
 
         //Protected - Class Only Access
-        public Rectangle bounds;
-        protected Texture2D sprite;
+
 
         //Constructor
         public Button(String a_buttonName, Rectangle a_bounds, Texture2D a_sprite)
