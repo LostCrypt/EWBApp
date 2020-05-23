@@ -36,6 +36,8 @@ namespace EWBApp
 
         Button testButton;
 
+        List<Button> buttonList;
+
         //States
         ScreenStates screenState;
 
@@ -156,6 +158,25 @@ namespace EWBApp
             }
         }
 
+        Vector2 StringAlign(SpriteFont font, string text, int valueX, int valueY)
+        {
+            //VARIABLES//
+            Vector2 size = font.MeasureString(text);
+            Vector2 pos;
+            Vector2 origin = size / 2;
+
+            pos.X = screen.Width / 2;
+            pos.Y = screen.Height / 2;
+
+            //CALCULATIONS//
+            Vector2 center = pos - origin;
+
+            center.X += valueX;
+            center.Y += valueY;
+
+            return center;
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
@@ -172,7 +193,16 @@ namespace EWBApp
                 spriteBatch.DrawString(mainFont, "Test Collision: " + testButton.HasCollided(mouseDetect).ToString(), new Vector2(5, 105), Color.Red);
             }
 
-            testButton.Draw(spriteBatch, gameTime);
+            if (screenState == ScreenStates.Welcome)
+            {
+                spriteBatch.DrawString(mainFont, "Welcome!", StringAlign(mainFont, "Welcome!", 0, 0), Color.Black);
+
+            }
+
+            if (screenState == ScreenStates.Ranger)
+            {
+                testButton.Draw(spriteBatch, gameTime);
+            }
 
             spriteBatch.End();
 
