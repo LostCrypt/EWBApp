@@ -24,6 +24,7 @@ namespace EWBApp
 
         //Fonts
         private SpriteFont mainFont;
+        private SpriteFont titleFont;
 
         //Mouse
         public MouseState newState;
@@ -73,6 +74,8 @@ namespace EWBApp
             mouseDetect.Width = 1;
             mouseDetect.Height = 1;
 
+            MouseReset();
+
             mouseHover.Width = 1;
             mouseHover.Height = 1;
 
@@ -91,11 +94,15 @@ namespace EWBApp
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Fonts
+            titleFont = Content.Load<SpriteFont>("Fonts/titleFont");
             mainFont = Content.Load<SpriteFont>("Fonts/mainFont");
 
             //Buttons
+            buttonList = new List<Button>();
 
             testButton = new Button("testing", new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
+
+            buttonList.Add(testButton);
         }
 
         protected override void UnloadContent()
@@ -110,7 +117,19 @@ namespace EWBApp
 
             MouseInput();
 
-            DragDrop(testButton);
+            if (screenState == ScreenStates.Welcome)
+            {
+                if (screen.Intersects(mouseDetect))
+                {
+                    MouseReset();
+                    screenState = ScreenStates.Ranger;
+                }
+            }
+
+            if (screenState == ScreenStates.Ranger)
+            {
+                DragDrop(testButton);
+            }
 
             base.Update(gameTime);
         }
@@ -135,12 +154,17 @@ namespace EWBApp
             oldState = newState;
         }
 
+        void MouseReset()
+        {
+            mouseDetect.X = -1000;
+            mouseDetect.Y = -1000;
+        }
+
         void DragDrop(Button button)
         {
             if (button.HasCollided(mouseDetect) && button.flag == false)
             {
-                mouseDetect.X = -1000;
-                mouseDetect.Y = -1000;
+                MouseReset();
                 button.flag = true;
             }
             
@@ -195,8 +219,8 @@ namespace EWBApp
 
             if (screenState == ScreenStates.Welcome)
             {
-                spriteBatch.DrawString(mainFont, "Welcome!", StringAlign(mainFont, "Welcome!", 0, 0), Color.Black);
-
+                GraphicsDevice.Clear(Color.FromNonPremultiplied(244, 67, 54, 255));
+                spriteBatch.DrawString(titleFont, "Welcome", StringAlign(titleFont, "Welcome!", 0, 0), Color.White);
             }
 
             if (screenState == ScreenStates.Ranger)
