@@ -25,6 +25,9 @@ namespace EWBApp
         //Fonts
         private SpriteFont mainFont;
         private SpriteFont titleFont;
+        private SpriteFont headingFont;
+        private SpriteFont subHeadingFont;
+        private SpriteFont bodyFont;
 
         //Mouse
         public MouseState newState;
@@ -34,7 +37,9 @@ namespace EWBApp
 
         //Buttons
         public Texture2D testButtonImg;
+        public Texture2D buttonImg;
 
+        Button signButton;
         Button testButton;
 
         List<Button> buttonList;
@@ -81,6 +86,8 @@ namespace EWBApp
 
             //BUTTONS//
 
+            buttonImg = Content.Load<Texture2D>("Images/button");
+
             testButtonImg = Content.Load<Texture2D>("Images/testImg");
 
             //STATES//
@@ -96,18 +103,22 @@ namespace EWBApp
             //Fonts
             titleFont = Content.Load<SpriteFont>("Fonts/titleFont");
             mainFont = Content.Load<SpriteFont>("Fonts/mainFont");
+            headingFont = Content.Load<SpriteFont>("Fonts/headingFont");
+            subHeadingFont = Content.Load<SpriteFont>("Fonts/subHeadingFont");
+            bodyFont = Content.Load<SpriteFont>("Fonts/bodyFont");
 
-            //Buttons
-            buttonList = new List<Button>();
+        //Buttons
+        buttonList = new List<Button>();
 
+            signButton = new Button("Sign", new Rectangle(screen.Width / 2, screen.Height / 2, 98, 31), buttonImg);
             testButton = new Button("testing", new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
 
-            buttonList.Add(testButton);
+            buttonList.Add(signButton);
         }
 
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -120,6 +131,15 @@ namespace EWBApp
             if (screenState == ScreenStates.Welcome)
             {
                 if (screen.Intersects(mouseDetect))
+                {
+                    MouseReset();
+                    screenState = ScreenStates.Signin;
+                }
+            }
+
+            if (screenState == ScreenStates.Signin)
+            {
+                if (signButton.HasCollided(mouseDetect))
                 {
                     MouseReset();
                     screenState = ScreenStates.Ranger;
@@ -220,7 +240,17 @@ namespace EWBApp
             if (screenState == ScreenStates.Welcome)
             {
                 GraphicsDevice.Clear(Color.FromNonPremultiplied(244, 67, 54, 255));
+
                 spriteBatch.DrawString(titleFont, "Welcome", StringAlign(titleFont, "Welcome!", 0, 0), Color.White);
+            }
+
+            if (screenState == ScreenStates.Signin)
+            {
+                GraphicsDevice.Clear(Color.White);
+
+                spriteBatch.DrawString(headingFont, "Sign-Up With Us", StringAlign(headingFont, "Welcome!", -130, -450), Color.Black);
+
+                signButton.Draw(spriteBatch, gameTime);
             }
 
             if (screenState == ScreenStates.Ranger)
