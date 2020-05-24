@@ -27,7 +27,7 @@ namespace EWBApp
         private SpriteFont titleFont;
         private SpriteFont headingFont;
         private SpriteFont subHeadingFont;
-        private SpriteFont bodyFont;
+        public SpriteFont bodyFont;
 
         //Mouse
         public MouseState newState;
@@ -38,11 +38,15 @@ namespace EWBApp
         //Buttons
         public Texture2D testButtonImg;
         public Texture2D buttonImg;
+        public Texture2D buttonEmpty;
 
         Button signButton;
+        Button rangerSign;
         Button testButton;
 
         List<Button> buttonList;
+
+        List<Button> signButtonList;
 
         //States
         ScreenStates screenState;
@@ -87,6 +91,7 @@ namespace EWBApp
             //BUTTONS//
 
             buttonImg = Content.Load<Texture2D>("Images/button");
+            buttonEmpty = Content.Load<Texture2D>("Images/buttonEmpty");
 
             testButtonImg = Content.Load<Texture2D>("Images/testImg");
 
@@ -107,13 +112,16 @@ namespace EWBApp
             subHeadingFont = Content.Load<SpriteFont>("Fonts/subHeadingFont");
             bodyFont = Content.Load<SpriteFont>("Fonts/bodyFont");
 
-        //Buttons
-        buttonList = new List<Button>();
+            //Buttons
+            buttonList = new List<Button>();
+            signButtonList = new List<Button>();
 
-            signButton = new Button("Sign", new Rectangle(screen.Width / 2, screen.Height / 2, 98, 31), buttonImg);
-            testButton = new Button("testing", new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
+            signButton = new Button("Sign", true, bodyFont, new Rectangle(screen.Width / 2, screen.Height / 2, 98, 31), buttonImg);
+            rangerSign = new Button("Ranger Signin", true, bodyFont, new Rectangle(screen.Width / 2 + 50, screen.Height / 2 + 50, buttonEmpty.Width, buttonEmpty.Height), buttonEmpty);
+            testButton = new Button("testing", false, bodyFont, new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
 
-            buttonList.Add(signButton);
+            signButtonList.Add(signButton);
+            signButtonList.Add(rangerSign);
         }
 
         protected override void UnloadContent()
@@ -250,7 +258,10 @@ namespace EWBApp
 
                 spriteBatch.DrawString(headingFont, "Sign-Up With Us", StringAlign(headingFont, "Welcome!", -130, -450), Color.Black);
 
-                signButton.Draw(spriteBatch, gameTime);
+                foreach (Button b in signButtonList)
+                {
+                    b.Draw(spriteBatch, gameTime);
+                }
             }
 
             if (screenState == ScreenStates.Ranger)
