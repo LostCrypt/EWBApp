@@ -22,6 +22,8 @@ namespace EWBApp
         //The screen
         Rectangle screen;
 
+        public Texture2D map;
+
         //Fonts
         private SpriteFont mainFont;
         private SpriteFont titleFont;
@@ -37,14 +39,22 @@ namespace EWBApp
 
         //Buttons
         public Texture2D testButtonImg;
-        public Texture2D buttonImg;
+        public Texture2D pinImg;
+        public Texture2D buttonFull;
         public Texture2D buttonEmpty;
 
-        Button signButton;
+        //Normal
+        Button loginButton;
         Button rangerSign;
-        Button testButton;
+        Button visitorSign;
 
-        List<Button> buttonList;
+        //DragDrop
+        Button testButton;
+        Button poi1;
+        Button poi2;
+        Button poi3;
+
+        List<Button> iconList;
 
         List<Button> signButtonList;
 
@@ -88,13 +98,6 @@ namespace EWBApp
             mouseHover.Width = 1;
             mouseHover.Height = 1;
 
-            //BUTTONS//
-
-            buttonImg = Content.Load<Texture2D>("Images/button");
-            buttonEmpty = Content.Load<Texture2D>("Images/buttonEmpty");
-
-            testButtonImg = Content.Load<Texture2D>("Images/testImg");
-
             //STATES//
             screenState = ScreenStates.Welcome;
 
@@ -105,6 +108,14 @@ namespace EWBApp
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //Normal Buttons
+            buttonFull = Content.Load<Texture2D>("Images/buttonFull");
+            buttonEmpty = Content.Load<Texture2D>("Images/buttonEmpty");
+
+            //DragDrop Buttons
+            testButtonImg = Content.Load<Texture2D>("Images/testImg");
+            pinImg = Content.Load<Texture2D>("Images/pin");
+
             //Fonts
             titleFont = Content.Load<SpriteFont>("Fonts/titleFont");
             mainFont = Content.Load<SpriteFont>("Fonts/mainFont");
@@ -112,16 +123,31 @@ namespace EWBApp
             subHeadingFont = Content.Load<SpriteFont>("Fonts/subHeadingFont");
             bodyFont = Content.Load<SpriteFont>("Fonts/bodyFont");
 
-            //Buttons
-            buttonList = new List<Button>();
+            //Background
+            map = Content.Load<Texture2D>("Images/mapbg");
+
+            //BUTTONS//
+            iconList = new List<Button>();
             signButtonList = new List<Button>();
 
-            signButton = new Button("Sign", true, bodyFont, new Rectangle(screen.Width / 2, screen.Height / 2, 98, 31), buttonImg);
-            rangerSign = new Button("Ranger Signin", true, bodyFont, new Rectangle(screen.Width / 2 + 50, screen.Height / 2 + 50, buttonEmpty.Width, buttonEmpty.Height), buttonEmpty);
-            testButton = new Button("testing", false, bodyFont, new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
+            //Sign-In screen
+            loginButton = new Button("Login", true, bodyFont, new Rectangle(screen.Width / 2 - buttonFull.Width / 2, 700, buttonFull.Width, buttonFull.Height), buttonFull);
+            rangerSign = new Button("Ranger", true, bodyFont, new Rectangle(80, 400, buttonEmpty.Width, buttonEmpty.Height), buttonEmpty);
+            visitorSign = new Button("Visitor", true, bodyFont, new Rectangle(286, 400, buttonEmpty.Width, buttonEmpty.Height), buttonEmpty);
 
-            signButtonList.Add(signButton);
+            testButton = new Button("testing", false, bodyFont, new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
+            poi1 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width - 20, 300, 40, 40), pinImg);
+            poi2 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width - 20, 350, 40, 40), pinImg);
+            poi3 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width - 20, 400, 40, 40), pinImg);
+
+            signButtonList.Add(loginButton);
             signButtonList.Add(rangerSign);
+            signButtonList.Add(visitorSign);
+
+            //iconList.Add(testButton);
+            iconList.Add(poi1);
+            iconList.Add(poi2);
+            iconList.Add(poi3);
         }
 
         protected override void UnloadContent()
@@ -147,7 +173,7 @@ namespace EWBApp
 
             if (screenState == ScreenStates.Signin)
             {
-                if (signButton.HasCollided(mouseDetect))
+                if (loginButton.HasCollided(mouseDetect))
                 {
                     MouseReset();
                     screenState = ScreenStates.Ranger;
@@ -156,7 +182,10 @@ namespace EWBApp
 
             if (screenState == ScreenStates.Ranger)
             {
-                DragDrop(testButton);
+                foreach (Button b in iconList)
+                {
+                    DragDrop(b);
+                }
             }
 
             base.Update(gameTime);
@@ -188,25 +217,25 @@ namespace EWBApp
             mouseDetect.Y = -1000;
         }
 
-        void DragDrop(Button button)
+        void DragDrop(Button b)
         {
-            if (button.HasCollided(mouseDetect) && button.flag == false)
+            if (b.HasCollided(mouseDetect) && b.flag == false)
             {
                 MouseReset();
-                button.flag = true;
+                b.flag = true;
             }
             
-            if (button.HasCollided(mouseDetect) && button.flag == true)
+            if (b.HasCollided(mouseDetect) && b.flag == true)
             {
                 mouseDetect.X = -1000;
                 mouseDetect.Y = -1000;
-                button.flag = false;
+                b.flag = false;
             }
 
-            if (button.flag == true)
+            if (b.flag == true)
             {
-                button.bounds.X = mouseHover.X - button.sprite.Width / 2;
-                button.bounds.Y = mouseHover.Y - button.sprite.Height / 2;
+                b.bounds.X = mouseHover.X - b.bounds.Width / 2;
+                b.bounds.Y = mouseHover.Y - b.bounds.Height / 2;
             }
         }
 
@@ -256,7 +285,9 @@ namespace EWBApp
             {
                 GraphicsDevice.Clear(Color.White);
 
-                spriteBatch.DrawString(headingFont, "Sign-Up With Us", StringAlign(headingFont, "Welcome!", -130, -450), Color.Black);
+                spriteBatch.DrawString(headingFont, "Sign-Up With Us", new Vector2(40, 40), Color.Black);
+                spriteBatch.DrawString(subHeadingFont, "I am a...", new Vector2(80, 300), Color.Black);
+                spriteBatch.DrawString(subHeadingFont, "Coming back?", new Vector2(80, 600), Color.Black);
 
                 foreach (Button b in signButtonList)
                 {
@@ -266,7 +297,11 @@ namespace EWBApp
 
             if (screenState == ScreenStates.Ranger)
             {
-                testButton.Draw(spriteBatch, gameTime);
+                spriteBatch.Draw(map, new Rectangle(0, 0, screen.Width, screen.Height), Color.White);
+                foreach (Button b in iconList)
+                {
+                    b.Draw(spriteBatch, gameTime);
+                }
             }
 
             spriteBatch.End();
