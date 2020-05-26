@@ -58,6 +58,23 @@ namespace EWBApp
             return center;
         }
 
+        public void TransitionLeft()
+        {
+            if (flag == true)
+            {
+                bounds.X = 490;
+                flag = false;
+            }
+        }
+
+        public void TransitionRight()
+        {
+            if (flag == true)
+            {
+
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Draw(sprite, bounds, Color.White);

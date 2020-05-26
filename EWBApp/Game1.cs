@@ -42,11 +42,14 @@ namespace EWBApp
         public Texture2D pinImg;
         public Texture2D buttonFull;
         public Texture2D buttonEmpty;
+        public Texture2D buttonMenuImg;
+        public Texture2D buttonBgImg;
 
         //Normal
         Button loginButton;
         Button rangerSign;
         Button visitorSign;
+        Button menuButton;
 
         //DragDrop
         Button testButton;
@@ -111,6 +114,7 @@ namespace EWBApp
             //Normal Buttons
             buttonFull = Content.Load<Texture2D>("Images/buttonFull");
             buttonEmpty = Content.Load<Texture2D>("Images/buttonEmpty");
+            buttonMenuImg = Content.Load<Texture2D>("Images/menuButton");
 
             //DragDrop Buttons
             testButtonImg = Content.Load<Texture2D>("Images/testImg");
@@ -135,10 +139,12 @@ namespace EWBApp
             rangerSign = new Button("Ranger", true, bodyFont, new Rectangle(80, 400, buttonEmpty.Width, buttonEmpty.Height), buttonEmpty);
             visitorSign = new Button("Visitor", true, bodyFont, new Rectangle(286, 400, buttonEmpty.Width, buttonEmpty.Height), buttonEmpty);
 
+            // Ranger Screen
+            menuButton = new Button("Menu", false, bodyFont, new Rectangle(screen.Width - 80, 600, 50, 50), buttonMenuImg);
             testButton = new Button("testing", false, bodyFont, new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
-            poi1 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width - 20, 300, 40, 40), pinImg);
-            poi2 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width - 20, 350, 40, 40), pinImg);
-            poi3 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width - 20, 400, 40, 40), pinImg);
+            poi1 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 300, 50, 50), pinImg);
+            poi2 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 350, 50, 50), pinImg);
+            poi3 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 400, 50, 50), pinImg);
 
             signButtonList.Add(loginButton);
             signButtonList.Add(rangerSign);
@@ -182,9 +188,31 @@ namespace EWBApp
 
             if (screenState == ScreenStates.Ranger)
             {
+                if (menuButton.HasCollided(mouseDetect) && menuButton.flag == false)
+                {
+                    MouseReset();
+                    menuButton.flag = true;
+                }
+
+                if (menuButton.HasCollided(mouseDetect) && menuButton.flag == true)
+                {
+                    MouseReset();
+                    menuButton.flag = false;
+                }
+
                 foreach (Button b in iconList)
                 {
                     DragDrop(b);
+
+                    if (menuButton.flag == true && b.bounds.X > screen.Width)
+                    {
+                        b.bounds.X = 490;
+                    }
+
+                    if (menuButton.flag == false && b.bounds.X < screen.Width)
+                    {
+                        b.bounds.X = 563;
+                    }
                 }
             }
 
@@ -264,16 +292,6 @@ namespace EWBApp
 
             spriteBatch.Begin();
 
-            //Debug Menu
-            if (Keyboard.GetState().IsKeyDown(Keys.F3))
-            {
-                spriteBatch.DrawString(mainFont, "= Debug Menu =", new Vector2(5, 10), Color.Red);
-                spriteBatch.DrawString(mainFont, "Mouse Location: " + mouseHover.ToString(), new Vector2(5, 45), Color.Red);
-                spriteBatch.DrawString(mainFont, "Mouse Hitbox: " + mouseDetect.ToString(), new Vector2(5, 65), Color.Red);
-                spriteBatch.DrawString(mainFont, "Mouse Click: " + oldState.LeftButton.ToString(), new Vector2(5, 85), Color.Red);
-                spriteBatch.DrawString(mainFont, "Test Collision: " + testButton.HasCollided(mouseDetect).ToString(), new Vector2(5, 105), Color.Red);
-            }
-
             if (screenState == ScreenStates.Welcome)
             {
                 GraphicsDevice.Clear(Color.FromNonPremultiplied(244, 67, 54, 255));
@@ -298,10 +316,23 @@ namespace EWBApp
             if (screenState == ScreenStates.Ranger)
             {
                 spriteBatch.Draw(map, new Rectangle(0, 0, screen.Width, screen.Height), Color.White);
+                menuButton.Draw(spriteBatch, gameTime);
                 foreach (Button b in iconList)
                 {
                     b.Draw(spriteBatch, gameTime);
                 }
+            }
+
+            //Debug Menu
+            if (Keyboard.GetState().IsKeyDown(Keys.F3))
+            {
+                spriteBatch.DrawString(mainFont, "= Debug Menu =", new Vector2(5, 10), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Location: " + mouseHover.ToString(), new Vector2(5, 45), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Hitbox: " + mouseDetect.ToString(), new Vector2(5, 65), Color.Red);
+                spriteBatch.DrawString(mainFont, "Mouse Click: " + oldState.LeftButton.ToString(), new Vector2(5, 85), Color.Red);
+                spriteBatch.DrawString(mainFont, "Test Collision: " + testButton.HasCollided(mouseDetect).ToString(), new Vector2(5, 105), Color.Red);
+                spriteBatch.DrawString(mainFont, "MenuButton State: " + menuButton.flag.ToString(), new Vector2(5, 125), Color.Red);
+                spriteBatch.DrawString(mainFont, "POI1 Location: " + poi1.bounds.X.ToString(), new Vector2(5, 145), Color.Red);
             }
 
             spriteBatch.End();
