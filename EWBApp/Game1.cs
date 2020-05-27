@@ -140,11 +140,11 @@ namespace EWBApp
             visitorSign = new Button("Visitor", true, bodyFont, new Rectangle(286, 400, buttonEmpty.Width, buttonEmpty.Height), buttonEmpty);
 
             // Ranger Screen
-            menuButton = new Button("Menu", false, bodyFont, new Rectangle(screen.Width - 80, 600, 50, 50), buttonMenuImg);
+            menuButton = new Button("Menu", false, bodyFont, new Rectangle(screen.Width - 60, screen.Height - 60, 50, 50), buttonMenuImg);
             testButton = new Button("testing", false, bodyFont, new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
-            poi1 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 300, 50, 50), pinImg);
-            poi2 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 350, 50, 50), pinImg);
-            poi3 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 400, 50, 50), pinImg);
+            poi1 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 450, 50, 50), pinImg);
+            poi2 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 500, 50, 50), pinImg);
+            poi3 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 550, 50, 50), pinImg);
 
             signButtonList.Add(loginButton);
             signButtonList.Add(rangerSign);
@@ -206,7 +206,7 @@ namespace EWBApp
 
                     if (menuButton.flag == true && b.bounds.X > screen.Width)
                     {
-                        b.bounds.X = 490;
+                        b.bounds.X = screen.Width - 60;
                     }
 
                     if (menuButton.flag == false && b.bounds.X < screen.Width)
