@@ -24,6 +24,8 @@ namespace EWBApp
 
         public Texture2D map;
 
+        public Texture2D logo;
+
         //Fonts
         private SpriteFont mainFont;
         private SpriteFont titleFont;
@@ -40,6 +42,8 @@ namespace EWBApp
         //Buttons
         public Texture2D testButtonImg;
         public Texture2D pinImg;
+        public Texture2D gasImg;
+        public Texture2D foodImg;
         public Texture2D buttonFull;
         public Texture2D buttonEmpty;
         public Texture2D buttonMenuImg;
@@ -55,7 +59,8 @@ namespace EWBApp
         Button testButton;
         Button poi1;
         Button poi2;
-        Button poi3;
+        Button gas;
+        Button food;
 
         List<Button> iconList;
 
@@ -119,6 +124,8 @@ namespace EWBApp
             //DragDrop Buttons
             testButtonImg = Content.Load<Texture2D>("Images/testImg");
             pinImg = Content.Load<Texture2D>("Images/pin");
+            gasImg = Content.Load<Texture2D>("Images/gasIcon");
+            foodImg = Content.Load<Texture2D>("Images/foodIcon");
 
             //Fonts
             titleFont = Content.Load<SpriteFont>("Fonts/titleFont");
@@ -129,6 +136,7 @@ namespace EWBApp
 
             //Background
             map = Content.Load<Texture2D>("Images/mapbg");
+            logo = Content.Load<Texture2D>("Images/logo");
 
             //BUTTONS//
             iconList = new List<Button>();
@@ -143,8 +151,9 @@ namespace EWBApp
             menuButton = new Button("Menu", false, bodyFont, new Rectangle(screen.Width - 60, screen.Height - 60, 50, 50), buttonMenuImg);
             testButton = new Button("testing", false, bodyFont, new Rectangle(screen.Width / 2, screen.Height / 2, 250, 250), testButtonImg);
             poi1 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 450, 50, 50), pinImg);
-            poi2 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 500, 50, 50), pinImg);
-            poi3 = new Button("poi1", false, bodyFont, new Rectangle(screen.Width + 20, 550, 50, 50), pinImg);
+            poi2 = new Button("poi2", false, bodyFont, new Rectangle(screen.Width + 20, 500, 50, 50), pinImg);
+            gas = new Button("gas", false, bodyFont, new Rectangle(screen.Width + 20, 550, 45, 45), gasImg);
+            food = new Button("food", false, bodyFont, new Rectangle(screen.Width + 20, 600, 45, 45), foodImg);
 
             signButtonList.Add(loginButton);
             signButtonList.Add(rangerSign);
@@ -153,7 +162,8 @@ namespace EWBApp
             //iconList.Add(testButton);
             iconList.Add(poi1);
             iconList.Add(poi2);
-            iconList.Add(poi3);
+            iconList.Add(gas);
+            iconList.Add(food);
         }
 
         protected override void UnloadContent()
@@ -296,7 +306,9 @@ namespace EWBApp
             {
                 GraphicsDevice.Clear(Color.FromNonPremultiplied(244, 67, 54, 255));
 
-                spriteBatch.DrawString(titleFont, "Welcome", StringAlign(titleFont, "Welcome!", 0, 0), Color.White);
+                spriteBatch.DrawString(titleFont, "Welcome!", StringAlign(titleFont, "Welcome!", 0, 0), Color.White);
+
+                spriteBatch.Draw(logo, new Rectangle(screen.Width / 2 - (logo.Width / 2) - 50, 650, logo.Width + 100, logo.Height + 100), Color.White);
             }
 
             if (screenState == ScreenStates.Signin)
